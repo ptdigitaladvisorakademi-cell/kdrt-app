@@ -1,142 +1,78 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aplikasi Layanan KDRT</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(-45deg, #6a11cb, #2575fc, #6a11cb, #2575fc);
-      background-size: 400% 400%;
-      animation: gradientBG 12s ease infinite;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 40px 20px;
-      box-sizing: border-box;
-    }
+import { useState } from "react";
 
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
+export default function MenuPelayanan() {
+  const [open, setOpen] = useState(null);
+  const [formData, setFormData] = useState({ nama: "", pesan: "" });
 
-    h1 {
-      color: white;
-      text-align: center;
-      font-size: 28px;
-      margin-bottom: 20px;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    }
+  const handleSubmit = async (menu) => {
+    const token = "ISI_TOKEN_BOT_MU";
+    const chatId = "ISI_CHAT_ID_ADMIN";
+    const text = `📌 Menu: ${menu}\n👤 Nama: ${formData.nama}\n💬 Pesan: ${formData.pesan}`;
 
-    .menu-container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      width: 100%;
-      max-width: 600px;
-    }
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text }),
+    });
 
-    .menu-item {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      padding: 30px;
-      text-align: center;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-      transition: transform 0.25s, background 0.3s;
-    }
+    alert("Pesan terkirim ke admin via Telegram ✅");
+    setOpen(null);
+    setFormData({ nama: "", pesan: "" });
+  };
 
-    .menu-item:hover {
-      transform: translateY(-5px) scale(1.05);
-      background: rgba(255, 255, 255, 0.25);
-    }
+  return (
+    <div className="grid grid-cols-2 gap-4 p-6">
+      {[
+        { label: "Lapor Kekerasan", icon: "🚨" },
+        { label: "Edukasi", icon: "📚" },
+        { label: "Konseling", icon: "💬" },
+        { label: "Layanan Lokasi", icon: "📍" },
+      ].map((item) => (
+        <button
+          key={item.label}
+          className="p-6 bg-purple-600 text-white rounded-2xl shadow-lg hover:bg-purple-700"
+          onClick={() => setOpen(item.label)}
+        >
+          <span className="text-3xl">{item.icon}</span>
+          <p className="mt-2 text-lg">{item.label}</p>
+        </button>
+      ))}
 
-    .menu-item span {
-      display: block;
-      font-size: 40px;
-      margin-bottom: 10px;
-    }
-
-    .btn-darurat {
-      margin-top: 40px;
-      padding: 20px 50px;
-      font-size: 22px;
-      font-weight: bold;
-      color: white;
-      background: linear-gradient(to right, #ff416c, #ff4b2b);
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.35);
-      transition: transform 0.2s;
-    }
-
-    .btn-darurat:hover {
-      transform: scale(1.08);
-    }
-  </style>
-</head>
-<body>
-
-  <h1>💠 Layanan KDRT Kelurahan Bulukerto</h1>
-
-  <div class="menu-container">
-    <div class="menu-item" onclick="alert('Menu Lapor Kekerasan')">
-      <span>📄</span>
-      Lapor Kekerasan
+      {open && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-2xl w-96">
+            <h2 className="text-xl font-bold mb-4">{open}</h2>
+            <input
+              type="text"
+              placeholder="Nama Anda"
+              className="w-full p-2 border rounded mb-2"
+              value={formData.nama}
+              onChange={(e) => setFormData({ ...formData, nama: e.target.value })}
+            />
+            <textarea
+              placeholder="Tuliskan pesan..."
+              className="w-full p-2 border rounded mb-2"
+              rows="4"
+              value={formData.pesan}
+              onChange={(e) => setFormData({ ...formData, pesan: e.target.value })}
+            />
+            <div className="flex justify-between">
+              <button
+                onClick={() => setOpen(null)}
+                className="px-4 py-2 bg-gray-300 rounded-lg"
+              >
+                Batal
+              </button>
+              <button
+                onClick={() => handleSubmit(open)}
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg"
+              >
+                Kirim
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-    <div class="menu-item" onclick="alert('Menu Edukasi')">
-      <span>📚</span>
-      Edukasi
-    </div>
-    <div class="menu-item" onclick="alert('Menu Konseling')">
-      <span>💬</span>
-      Konseling
-    </div>
-    <div class="menu-item" onclick="alert('Menu Layanan Lokasi')">
-      <span>📍</span>
-      Layanan Lokasi
-    </div>
-  </div>
-
-  <button class="btn-darurat" onclick="laporDarurat()">🚨 TOMBOL DARURAT</button>
-
-  <script>
-    function laporDarurat() {
-      const TOKEN = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg";
-      const CHAT_ID = "-4947604362";
-      const pesan = "🚨 LAPOR DARURAT!\nAda laporan kekerasan dari warga!";
-
-      fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: pesan
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        alert("Laporan darurat berhasil terkirim ke Telegram!");
-        console.log("Sukses:", data);
-      })
-      .catch(err => {
-        alert("Gagal mengirim laporan!");
-        console.error("Error:", err);
-      });
-    }
-  </script>
-  
-
-</body>
-</html>
+  );
+}
