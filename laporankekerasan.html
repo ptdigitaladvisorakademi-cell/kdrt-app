@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lapor Kekerasan</title>
+  <title>Aplikasi KDRT Kelurahan Bulukerto</title>
   <style>
     body {
       margin: 0;
@@ -12,10 +12,9 @@
       justify-content: center;
       align-items: center;
       font-family: Arial, sans-serif;
-      color: white;
       background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff512f, #dd2476);
       background-size: 400% 400%;
-      animation: gradientBG 6s ease infinite;
+      animation: gradientBG 8s ease infinite;
     }
 
     @keyframes gradientBG {
@@ -25,92 +24,56 @@
     }
 
     .container {
-      background: rgba(0,0,0,0.5);
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
       width: 90%;
-      max-width: 400px;
+      max-width: 500px;
+    }
+
+    .menu {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 30px 10px;
       text-align: center;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      font-size: 22px;
-    }
-
-    input, textarea {
-      width: 100%;
-      margin: 10px 0;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-
-    button {
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(45deg, #ff416c, #ff4b2b);
-      border: none;
-      border-radius: 12px;
       color: white;
+      font-size: 18px;
       font-weight: bold;
-      font-size: 16px;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.2s, background 0.3s;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
 
-    button:hover {
+    .menu:hover {
       transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .icon {
+      font-size: 40px;
+      display: block;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>📢 Lapor Kekerasan</h2>
-    <input type="text" id="nama" placeholder="Nama Anda">
-    <textarea id="pesan" rows="4" placeholder="Tulis laporan Anda di sini..."></textarea>
-    <button onclick="kirimLaporan()">🚨 Kirim Laporan</button>
+    <a href="laporankekerasan.html" class="menu">
+      <span class="icon">📢</span>
+      Lapor Kekerasan
+    </a>
+    <a href="edukasi.html" class="menu">
+      <span class="icon">📚</span>
+      Edukasi
+    </a>
+    <a href="konseling.html" class="menu">
+      <span class="icon">💬</span>
+      Konseling
+    </a>
+    <a href="lokasi.html" class="menu">
+      <span class="icon">📍</span>
+      Layanan Lokasi
+    </a>
   </div>
-
-  <script>
-    async function kirimLaporan() {
-      const nama = document.getElementById("nama").value;
-      const pesan = document.getElementById("pesan").value;
-
-      if (!nama || !pesan) {
-        alert("Harap isi semua field!");
-        return;
-      }
-
-      // Token dan chat ID dari bot Telegram
-      const token = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg";
-      const chatId = "-4947604362";
-      const text = `🚨 LAPORAN DARURAT 🚨\n👤 Nama: ${nama}\n💬 Pesan: ${pesan}`;
-
-      try {
-        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ chat_id: chatId, text: text })
-        });
-
-        const data = await res.json();
-        console.log("Respon Telegram:", data);
-
-        if (data.ok) {
-          alert("✅ Laporan berhasil dikirim ke Telegram!");
-          document.getElementById("nama").value = "";
-          document.getElementById("pesan").value = "";
-        } else {
-          alert("❌ Gagal kirim laporan.\n" + JSON.stringify(data));
-        }
-      } catch (err) {
-        console.error("Error:", err);
-        alert("⚠️ Terjadi error saat menghubungi Telegram API. Cek console (F12).");
-      }
-    }
-  </script>
 </body>
 </html>
