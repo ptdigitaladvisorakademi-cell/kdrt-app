@@ -1,72 +1,103 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Laporan Kekerasan - Bulukerto</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lapor Kekerasan</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
       margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      color: white;
+      background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff512f, #dd2476);
+      background-size: 400% 400%;
+      animation: gradientBG 8s ease infinite;
     }
-    .card {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .container {
+      background: rgba(0,0,0,0.5);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
       width: 90%;
       max-width: 400px;
-    }
-    h2 {
       text-align: center;
     }
-    label {
-      display: block;
-      margin-top: 15px;
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
     }
-    input, textarea, button {
-      width: 100%;
-      margin-top: 5px;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-    }
+
     input, textarea {
-      outline: none;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
     }
+
     button {
-      margin-top: 20px;
-      background: #ff4e50;
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(45deg, #ff416c, #ff4b2b);
+      border: none;
+      border-radius: 12px;
       color: white;
-      cursor: pointer;
       font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s;
     }
+
     button:hover {
-      background: #e73c7e;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
-  <div class="card">
+  <div class="container">
     <h2>📢 Lapor Kekerasan</h2>
-    <form id="laporForm">
-      <label>Nama:</label>
-      <input type="text" id="nama" required />
-
-      <label>Pesan / Laporan:</label>
-      <textarea id="pesan" rows="4" required></textarea>
-
-      <button type="submit">Kirim Laporan</button>
-    </form>
+    <input type="text" id="nama" placeholder="Nama Anda">
+    <textarea id="pesan" rows="4" placeholder="Tulis laporan Anda di sini..."></textarea>
+    <button onclick="kirimLaporan()">🚨 Kirim Laporan</button>
   </div>
 
   <script>
-    const TOKEN = "ISI_TOKEN_BOT";  // ganti token bot mu
-    const CHAT_I_
+    async function kirimLaporan() {
+      const nama = document.getElementById("nama").value;
+      const pesan = document.getElementById("pesan").value;
+
+      if (!nama || !pesan) {
+        alert("Harap isi semua field!");
+        return;
+      }
+
+      const token = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg"; // Token bot
+      const chatId = "-4947604362"; // Chat ID grup
+      const text = `🚨 LAPORAN DARURAT 🚨\n👤 Nama: ${nama}\n💬 Pesan: ${pesan}`;
+
+      await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: text })
+      });
+
+      alert("✅ Laporan berhasil dikirim ke Telegram!");
+      document.getElementById("nama").value = "";
+      document.getElementById("pesan").value = "";
+    }
+  </script>
+</body>
+</html>
