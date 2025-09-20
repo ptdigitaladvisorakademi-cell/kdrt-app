@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi Layanan KDRT Bulukerto</title>
+  <style>
+    /* Background Gradient Animatif */
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(-45deg, #2e2b5f, #4a148c, #1a237e, #0d47a1);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: white;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Container Menu */
+    .menu-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding: 40px 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Kotak Menu (Glassmorphism Style) */
+    .menu-box {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 30px 20px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .menu-box:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    }
+    .menu-box i {
+      font-size: 42px;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .menu-box span {
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    /* Tombol Darurat */
+    .emergency-btn {
+      display: block;
+      margin: 40px auto;
+      padding: 20px 50px;
+      font-size: 22px;
+      font-weight: bold;
+      background: linear-gradient(45deg, #ff1744, #d50000);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+    }
+    .emergency-btn:hover {
+      transform: scale(1.08);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menu Grid -->
+  <div class="menu-container">
+    <div class="menu-box" onclick="alert('Form Lapor Kekerasan')">
+      <i>📝</i>
+      <span>Lapor Kekerasan</span>
+    </div>
+    <div class="menu-box" onclick="alert('Materi Edukasi')">
+      <i>📚</i>
+      <span>Edukasi</span>
+    </div>
+    <div class="menu-box" onclick="alert('Layanan Konseling')">
+      <i>💬</i>
+      <span>Konseling</span>
+    </div>
+    <div class="menu-box" onclick="alert('Lokasi Layanan Terdekat')">
+      <i>📍</i>
+      <span>Layanan Lokasi</span>
+    </div>
+  </div>
+
+  <!-- Tombol Darurat -->
+  <button class="emergency-btn" onclick="sendEmergencyEmail()">🚨 TOMBOL DARURAT</button>
+
+  <script>
+    function sendEmergencyEmail() {
+      const recipient = "darurat@kelurahan.example"; // Ganti dengan email kelurahan
+      const subject = encodeURIComponent("Laporan Darurat dari Warga");
+      const body = encodeURIComponent(
+        "Saya membutuhkan bantuan darurat sekarang.\n\n" +
+        "Waktu: " + new Date().toLocaleString("id-ID") + "\n" +
+        "Lokasi: (isi lokasi Anda di sini)\n\n" +
+        "Mohon segera ditindaklanjuti."
+      );
+      window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+    }
+  </script>
+
+</body>
+</html>
