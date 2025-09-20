@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laporan Kekerasan - Bulukerto</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin-top: 5px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+    }
+    input, textarea {
+      outline: none;
+    }
+    button {
+      margin-top: 20px;
+      background: #ff4e50;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #e73c7e;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>📢 Lapor Kekerasan</h2>
+    <form id="laporForm">
+      <label>Nama:</label>
+      <input type="text" id="nama" required />
+
+      <label>Pesan / Laporan:</label>
+      <textarea id="pesan" rows="4" required></textarea>
+
+      <button type="submit">Kirim Laporan</button>
+    </form>
+  </div>
+
+  <script>
+    const TOKEN = "ISI_TOKEN_BOT";  // ganti token bot mu
+    const CHAT_I_
