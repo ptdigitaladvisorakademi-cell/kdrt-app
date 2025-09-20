@@ -3,115 +3,137 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aplikasi Layanan KDRT Bulukerto</title>
+  <title>Aplikasi Layanan KDRT</title>
   <style>
-    /* Background Gradient Animatif */
-    html, body {
-      height: 100%;
+    body {
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(-45deg, #2e2b5f, #4a148c, #1a237e, #0d47a1);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(-45deg, #6a11cb, #2575fc, #6a11cb, #2575fc);
       background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      color: white;
-    }
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      animation: gradientBG 12s ease infinite;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px 20px;
+      box-sizing: border-box;
     }
 
-    /* Container Menu */
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    h1 {
+      color: white;
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
     .menu-container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
-      padding: 40px 20px;
+      width: 100%;
       max-width: 600px;
-      margin: 0 auto;
     }
 
-    /* Kotak Menu (Glassmorphism Style) */
-    .menu-box {
+    .menu-item {
       background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
       border-radius: 20px;
-      padding: 30px 20px;
+      padding: 30px;
       text-align: center;
-      backdrop-filter: blur(10px);
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .menu-box:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-    }
-    .menu-box i {
-      font-size: 42px;
-      margin-bottom: 12px;
-      display: block;
-    }
-    .menu-box span {
-      font-size: 18px;
+      color: white;
       font-weight: bold;
-      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      transition: transform 0.25s, background 0.3s;
     }
 
-    /* Tombol Darurat */
-    .emergency-btn {
+    .menu-item:hover {
+      transform: translateY(-5px) scale(1.05);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .menu-item span {
       display: block;
-      margin: 40px auto;
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .btn-darurat {
+      margin-top: 40px;
       padding: 20px 50px;
       font-size: 22px;
       font-weight: bold;
-      background: linear-gradient(45deg, #ff1744, #d50000);
       color: white;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
       border: none;
-      border-radius: 20px;
+      border-radius: 50px;
       cursor: pointer;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-      transition: transform 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+      transition: transform 0.2s;
     }
-    .emergency-btn:hover {
+
+    .btn-darurat:hover {
       transform: scale(1.08);
     }
   </style>
 </head>
 <body>
 
-  <!-- Menu Grid -->
+  <h1>💠 Layanan KDRT Kelurahan Bulukerto</h1>
+
   <div class="menu-container">
-    <div class="menu-box" onclick="alert('Form Lapor Kekerasan')">
-      <i>📝</i>
-      <span>Lapor Kekerasan</span>
+    <div class="menu-item" onclick="alert('Menu Lapor Kekerasan')">
+      <span>📄</span>
+      Lapor Kekerasan
     </div>
-    <div class="menu-box" onclick="alert('Materi Edukasi')">
-      <i>📚</i>
-      <span>Edukasi</span>
+    <div class="menu-item" onclick="alert('Menu Edukasi')">
+      <span>📚</span>
+      Edukasi
     </div>
-    <div class="menu-box" onclick="alert('Layanan Konseling')">
-      <i>💬</i>
-      <span>Konseling</span>
+    <div class="menu-item" onclick="alert('Menu Konseling')">
+      <span>💬</span>
+      Konseling
     </div>
-    <div class="menu-box" onclick="alert('Lokasi Layanan Terdekat')">
-      <i>📍</i>
-      <span>Layanan Lokasi</span>
+    <div class="menu-item" onclick="alert('Menu Layanan Lokasi')">
+      <span>📍</span>
+      Layanan Lokasi
     </div>
   </div>
 
-  <!-- Tombol Darurat -->
-  <button class="emergency-btn" onclick="sendEmergencyEmail()">🚨 TOMBOL DARURAT</button>
+  <button class="btn-darurat" onclick="laporDarurat()">🚨 TOMBOL DARURAT</button>
 
   <script>
-    function sendEmergencyEmail() {
-      const recipient = "darurat@kelurahan.example"; // Ganti dengan email kelurahan
-      const subject = encodeURIComponent("Laporan Darurat dari Warga");
-      const body = encodeURIComponent(
-        "Saya membutuhkan bantuan darurat sekarang.\n\n" +
-        "Waktu: " + new Date().toLocaleString("id-ID") + "\n" +
-        "Lokasi: (isi lokasi Anda di sini)\n\n" +
-        "Mohon segera ditindaklanjuti."
-      );
-      window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+    function laporDarurat() {
+      const TOKEN = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg";
+      const CHAT_ID = "-4947604362";
+      const pesan = "🚨 LAPOR DARURAT!\nAda laporan kekerasan dari warga!";
+
+      fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: pesan
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert("Laporan darurat berhasil terkirim ke Telegram!");
+        console.log("Sukses:", data);
+      })
+      .catch(err => {
+        alert("Gagal mengirim laporan!");
+        console.error("Error:", err);
+      });
     }
   </script>
 
