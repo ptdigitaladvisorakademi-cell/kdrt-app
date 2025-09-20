@@ -15,7 +15,7 @@
       color: white;
       background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff512f, #dd2476);
       background-size: 400% 400%;
-      animation: gradientBG 8s ease infinite;
+      animation: gradientBG 6s ease infinite;
     }
 
     @keyframes gradientBG {
@@ -84,19 +84,32 @@
         return;
       }
 
-      const token = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg"; // Token bot
-      const chatId = "-4947604362"; // Chat ID grup
+      // Token dan chat ID dari bot Telegram
+      const token = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg";
+      const chatId = "-4947604362";
       const text = `🚨 LAPORAN DARURAT 🚨\n👤 Nama: ${nama}\n💬 Pesan: ${pesan}`;
 
-      await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: chatId, text: text })
-      });
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: chatId, text: text })
+        });
 
-      alert("✅ Laporan berhasil dikirim ke Telegram!");
-      document.getElementById("nama").value = "";
-      document.getElementById("pesan").value = "";
+        const data = await res.json();
+        console.log("Respon Telegram:", data);
+
+        if (data.ok) {
+          alert("✅ Laporan berhasil dikirim ke Telegram!");
+          document.getElementById("nama").value = "";
+          document.getElementById("pesan").value = "";
+        } else {
+          alert("❌ Gagal kirim laporan.\n" + JSON.stringify(data));
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        alert("⚠️ Terjadi error saat menghubungi Telegram API. Cek console (F12).");
+      }
     }
   </script>
 </body>
