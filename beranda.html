@@ -5,16 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aplikasi KDRT Kelurahan Bulukerto</title>
   <style>
+    /* Background Gradient Animated */
     body {
       margin: 0;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: Arial, sans-serif;
+      font-family: "Poppins", sans-serif;
       background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff512f, #dd2476);
       background-size: 400% 400%;
-      animation: gradientBG 8s ease infinite;
+      animation: gradientBG 12s ease infinite;
     }
 
     @keyframes gradientBG {
@@ -23,54 +24,91 @@
       100% {background-position: 0% 50%;}
     }
 
+    /* Container Grid */
     .container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+      gap: 25px;
       width: 90%;
-      max-width: 500px;
+      max-width: 600px;
+      z-index: 2;
     }
 
+    /* Menu Card */
     .menu {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 20px;
-      padding: 30px 10px;
+      padding: 40px 15px;
       text-align: center;
-      color: white;
+      color: #fff;
       font-size: 18px;
       font-weight: bold;
       cursor: pointer;
-      transition: transform 0.2s, background 0.3s;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      text-decoration: none;
+      transition: all 0.4s ease;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
     }
 
+    /* Hover Effect */
     .menu:hover {
-      transform: scale(1.05);
-      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+      background: rgba(255, 255, 255, 0.2);
     }
 
+    /* Icon Style */
     .icon {
-      font-size: 40px;
+      font-size: 48px;
       display: block;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.6));
+      animation: pulse 2.5s infinite;
     }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1);}
+      50% { transform: scale(1.1);}
+    }
+
+    /* Floating Glow */
+    .menu::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      transform: rotate(45deg);
+      animation: shine 6s linear infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
   </style>
 </head>
 <body>
   <div class="container">
-    <a href="laporankekerasan.html" class="menu">
+    <a href="https://ptdigitaladvisorakademi.github.io/kdrt-app/laporankekerasan.html" class="menu">
       <span class="icon">📢</span>
       Lapor Kekerasan
     </a>
-    <a href="edukasi.html" class="menu">
+    <a href="https://ptdigitaladvisorakademi.github.io/kdrt-app/edukasi.html" class="menu">
       <span class="icon">📚</span>
       Edukasi
     </a>
-    <a href="konseling.html" class="menu">
+    <a href="https://ptdigitaladvisorakademi.github.io/kdrt-app/konseling.html" class="menu">
       <span class="icon">💬</span>
       Konseling
     </a>
-    <a href="lokasi.html" class="menu">
+    <a href="https://ptdigitaladvisorakademi.github.io/kdrt-app/lokasi.html" class="menu">
       <span class="icon">📍</span>
       Layanan Lokasi
     </a>
