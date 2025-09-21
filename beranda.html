@@ -1,28 +1,79 @@
-<script>
-  function laporDarurat() {
-    // TOKEN BOT
-    const TOKEN = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg";
-    // CHAT ID grupmu
-    const CHAT_ID = "-4947604362";
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi KDRT Kelurahan Bulukerto</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff512f, #dd2476);
+      background-size: 400% 400%;
+      animation: gradientBG 8s ease infinite;
+    }
 
-    const pesan = "🚨 LAPOR DARURAT!\nAda laporan kekerasan dari warga!";
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
 
-    fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        chat_id: CHAT_ID,
-        text: pesan
-      })
-    })
-    .then(res => res.json())
-    .then(data => {
-      alert("Laporan darurat berhasil terkirim ke Telegram!");
-      console.log("Sukses:", data);
-    })
-    .catch(err => {
-      alert("Gagal mengirim laporan!");
-      console.error("Error:", err);
-    });
-  }
-</script>
+    .container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .menu {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 30px 10px;
+      text-align: center;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .menu:hover {
+      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .icon {
+      font-size: 40px;
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="laporankekerasan.html" class="menu">
+      <span class="icon">📢</span>
+      Lapor Kekerasan
+    </a>
+    <a href="edukasi.html" class="menu">
+      <span class="icon">📚</span>
+      Edukasi
+    </a>
+    <a href="konseling.html" class="menu">
+      <span class="icon">💬</span>
+      Konseling
+    </a>
+    <a href="lokasi.html" class="menu">
+      <span class="icon">📍</span>
+      Layanan Lokasi
+    </a>
+  </div>
+</body>
+</html>
