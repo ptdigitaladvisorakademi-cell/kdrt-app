@@ -1,196 +1,193 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Inovasi Kelurahan Bulukerto — Layanan KDRT</title>
-  <meta name="description" content="Inovasi Kelurahan Bulukerto: Laporan KDRT, Edukasi, Konseling, dan Layanan Lokasi. Hotline WA & Tombol Darurat terhubung ke Telegram."/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inovasi Kelurahan Bulukerto</title>
   <style>
-    :root{
-      --bg1:#4b2b93; --bg2:#2b6ef6; --bg3:#ff6a00; --bg4:#ff2d7e;
-      --glass: rgba(255,255,255,0.10);
-      --glass-2: rgba(255,255,255,0.05);
-      --text: #ffffff;
+    body {
+      margin: 0;
+      font-family: 'SF Pro Display', Arial, sans-serif;
+      background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff512f, #dd2476);
+      background-size: 400% 400%;
+      animation: gradientBG 8s ease infinite;
+      color: white;
+      text-align: center;
     }
-    html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;background:linear-gradient(-45deg,var(--bg1),var(--bg2),var(--bg3),var(--bg4));background-size:400% 400%;animation:bgAnim 8s linear infinite;color:var(--text);-webkit-font-smoothing:antialiased}
-    @keyframes bgAnim{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
-    /* layout */
-    .wrap{max-width:1100px;margin:28px auto;padding:20px;display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:start;box-sizing:border-box}
-    @media (max-width:920px){.wrap{grid-template-columns:1fr;padding:16px} .right{display:none}}
-
-    /* header area */
-    .header{
-      margin-top:8px;
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
     }
-    .title-wrap{display:block;overflow:hidden;white-space:nowrap;border-right:3px solid rgba(255,255,255,0.16);width:100%;max-width:980px}
-    .title{
-      display:inline-block;font-weight:800;font-size:26px;letter-spacing:0.2px;
-      animation:typing 3.6s steps(60,end) 1;
+
+    /* Judul typing effect */
+    h1 {
+      font-size: 26px;
+      margin: 20px 0 10px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid rgba(255,255,255,0.75);
+      width: 0;
+      animation: typing 4s steps(40, end) forwards, blink .75s step-end infinite;
     }
-    @keyframes typing{from{width:0}to{width:100%}}
 
-    .subtitle{margin-top:10px;color:rgba(255,255,255,0.92);font-size:15px;max-width:900px;line-height:1.45}
-    .subtitle b{font-weight:700}
-
-    /* running info bar */
-    .marquee{margin-top:14px;background:rgba(0,0,0,0.28);padding:10px 12px;border-radius:10px;overflow:hidden;position:relative;max-width:980px}
-    .marquee span{display:inline-block;padding-left:100%;animation:scroll 18s linear infinite;font-size:13px}
-    @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
-
-    /* menu grid */
-    .grid{margin-top:22px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-    .card{
-      background:var(--glass);backdrop-filter:blur(8px);border-radius:14px;padding:22px;text-align:center;color:var(--text);text-decoration:none;box-shadow:0 12px 30px rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);transition:transform .32s cubic-bezier(.2,.9,.2,1),box-shadow .32s;
-      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
     }
-    .card:hover{transform:translateY(-9px) scale(1.02);box-shadow:0 20px 50px rgba(0,0,0,0.35);background:linear-gradient(180deg, rgba(255,255,255,0.04), var(--glass))}
-    .icon{font-size:44px;filter:drop-shadow(0 10px 24px rgba(0,0,0,0.26))}
-    .label{font-weight:800;font-size:16px}
-    .muted{font-size:13px;color:rgba(255,255,255,0.85);text-align:center;margin-top:8px}
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
 
-    /* right panel (quote + hotline) */
-    .right{position:relative;padding:18px;border-radius:12px;background:linear-gradient(180deg,var(--glass),var(--glass-2));border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 40px rgba(0,0,0,0.3);backdrop-filter:blur(6px)}
-    .panelTitle{font-weight:700;font-size:16px;margin-bottom:8px}
-    .quote{font-size:14px;color:rgba(255,255,255,0.95);font-style:italic}
-    .hotline{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:18px}
-    .wa-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,#25D366,#128C7E);padding:10px 14px;border-radius:12px;color:white;font-weight:800;text-decoration:none;box-shadow:0 10px 28px rgba(18,140,126,0.18)}
-    .wa-btn svg{filter:drop-shadow(0 6px 18px rgba(0,0,0,0.18))}
+    /* Deskripsi */
+    .desc {
+      font-size: 16px;
+      opacity: 0.9;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
 
-    /* footer small */
-    .footer-note{margin-top:16px;font-size:13px;color:rgba(255,255,255,0.85);text-align:center}
+    /* Portal ala iPhone */
+    .portal {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(12px);
+      border-radius: 25px;
+      padding: 20px;
+      margin: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      font-size: 15px;
+      line-height: 1.6;
+      text-align: justify;
+    }
 
-    /* emergency floating button */
-    .emergency{
-      position:fixed;right:20px;bottom:20px;background:linear-gradient(135deg,#ff416c,#ff4b2b);color:#fff;border:none;padding:14px 18px;border-radius:999px;font-weight:800;box-shadow:0 18px 40px rgba(0,0,0,0.45);cursor:pointer;z-index:999;display:flex;gap:10px;align-items:center;animation:pulse 1.6s infinite}
-    @keyframes pulse{0%{box-shadow:0 12px 30px rgba(255,75,75,0.22)}50%{box-shadow:0 18px 45px rgba(255,75,75,0.35)}100%{box-shadow:0 12px 30px rgba(255,75,75,0.22)}}
-    .emergency:active{transform:scale(.98)}
+    /* Menu grid */
+    .container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      width: 90%;
+      max-width: 500px;
+      margin: 20px auto;
+    }
 
-    /* toast */
-    .toast{position:fixed;left:50%;transform:translateX(-50%);top:26px;background:rgba(0,0,0,0.7);color:#fff;padding:10px 14px;border-radius:10px;display:none;z-index:1200;box-shadow:0 10px 30px rgba(0,0,0,0.45)}
-    .toast.success{background:linear-gradient(90deg,#2ecc71,#16a085)}
-    .toast.error{background:linear-gradient(90deg,#ff5f6d,#ff416c)}
+    .menu {
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 25px 10px;
+      text-align: center;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+    .menu:hover {
+      transform: scale(1.07);
+      background: rgba(255,255,255,0.3);
+    }
+    .icon {
+      font-size: 40px;
+      display: block;
+      margin-bottom: 8px;
+    }
 
-    a {color:inherit}
-    button,a.card{outline:none}
+    /* Walking bar */
+    .marquee {
+      position: fixed;
+      bottom: 60px;
+      width: 100%;
+      background: rgba(0,0,0,0.4);
+      padding: 8px 0;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 15s linear infinite;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-100%); }
+    }
+
+    /* Tombol darurat */
+    .emergency-btn {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: red;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 15px 25px;
+      border-radius: 50px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: transform 0.2s;
+      z-index: 999;
+    }
+    .emergency-btn:hover {
+      transform: scale(1.1);
+      background: darkred;
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <!-- LEFT -->
-    <div class="left">
-      <div class="header">
-        <div class="title-wrap" aria-hidden="false"><div class="title">Inovasi Kelurahan Bulukerto — Portal Layanan</div></div>
-        <div class="subtitle">
-          <b>Tentang:</b> Portal layanan ini memudahkan warga untuk <b>melaporkan kasus KDRT</b>, mengakses <b>materi edukasi</b>, mengajukan <b>konseling</b>, dan menemukan <b>lokasi layanan</b> (shelter, P2TP2A, puskesmas). Semua laporan dapat ditindaklanjuti oleh petugas kelurahan secara cepat.
-        </div>
-        <div class="marquee" aria-hidden="true"><span>🌐 Inovasi Kelurahan Bulukerto • Smart City Magetan • Hotline WA: +62 813-3641-5504 • Lapor KDRT — Rahasia & Aman</span></div>
-      </div>
+  <h1>Inovasi Kelurahan Bulukerto</h1>
+  <p class="desc">Portal Layanan KDRT · Edukasi · Konseling · Lokasi</p>
 
-      <nav class="grid" role="navigation" aria-label="Menu Layanan">
-        <a class="card" href="https://ptdigitaladvisorakademi.github.io/kdrt-app/laporankekerasan.html">
-          <div class="icon">📢</div>
-          <div class="label">Lapor Kekerasan</div>
-          <div class="muted">Form & unggah bukti aman</div>
-        </a>
-
-        <a class="card" href="https://ptdigitaladvisorakademi.github.io/kdrt-app/edukasi.html">
-          <div class="icon">📚</div>
-          <div class="label">Edukasi</div>
-          <div class="muted">Materi pencegahan & panduan</div>
-        </a>
-
-        <a class="card" href="https://ptdigitaladvisorakademi.github.io/kdrt-app/konseling.html">
-          <div class="icon">💬</div>
-          <div class="label">Konseling</div>
-          <div class="muted">Ajukan sesi konseling anonim</div>
-        </a>
-
-        <a class="card" href="https://ptdigitaladvisorakademi.github.io/kdrt-app/lokasi.html">
-          <div class="icon">📍</div>
-          <div class="label">Layanan Lokasi</div>
-          <div class="muted">Shelter, P2TP2A, Puskesmas</div>
-        </a>
-      </nav>
-
-      <div class="footer-note">Dikelola oleh <b>Kelurahan Bulukerto</b> — Smart City Kabupaten Magetan</div>
-    </div>
-
-    <!-- RIGHT (no illustration per ralat) -->
-    <aside class="right" role="region" aria-label="Informasi">
-      <div class="panelTitle">Tentang Layanan</div>
-      <div class="quote">Aplikasi ini menyederhanakan proses pelaporan dan rujukan. Semua data sensitif ditangani oleh petugas berwenang; pastikan isi informasi sesuai kebutuhan bantuan.</div>
-
-      <div class="hotline" aria-label="Hotline WhatsApp">
-        <a class="wa-btn" href="https://wa.me/6281336415504?text=Halo%20Kelurahan%20Bulukerto%2C%20saya%20ingin%20menghubungi%20hotline." target="_blank" rel="noopener noreferrer">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path fill="#fff" d="M20.52 3.48A11.94 11.94 0 0012 0C5.37 0 .01 5.36.01 12c0 2.12.56 4.09 1.62 5.83L0 24l6.46-1.66A11.95 11.95 0 0012 24c6.63 0 12-5.36 12-12 0-3.2-1.25-6.17-3.48-8.52zM12 21.5c-1.84 0-3.61-.5-5.12-1.44l-.36-.21-3.84.99.98-3.75-.24-.37A9.5 9.5 0 012.5 12C2.5 6.75 6.75 2.5 12 2.5S21.5 6.75 21.5 12 17.25 21.5 12 21.5z"/><path fill="#fff" d="M17.02 14.6l-1.4-.4a1 1 0 00-1.03.25l-.74.74a8.02 8.02 0 01-3.7-3.69l.73-.73a1 1 0 00.25-1.02l-.4-1.4a1 1 0 00-1-0.64l-2.01.5a1 1 0 00-.7.7 12 12 0 0011.86 11.86c.37 0 .67-.26.77-.62l.5-2.01a1 1 0 00-.64-1z"/></svg>
-          <span>Hotline WA</span>
-        </a>
-      </div>
-
-      <div class="footer-note" style="margin-top:18px">Hubungi petugas Kelurahan Bulukerto untuk tindak lanjut. Data akan diteruskan sesuai SOP penanganan KDRT.</div>
-    </aside>
+  <div class="portal">
+    Portal layanan ini memudahkan warga untuk melaporkan kasus KDRT, mengakses materi edukasi, mengajukan konseling, 
+    dan menemukan lokasi layanan (shelter, P2TP2A, puskesmas). Semua laporan dapat ditindaklanjuti oleh petugas kelurahan secara cepat.
   </div>
 
-  <!-- toast -->
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div class="container">
+    <a href="laporankekerasan.html" class="menu">
+      <span class="icon">📢</span>
+      Lapor Kekerasan
+    </a>
+    <a href="edukasi.html" class="menu">
+      <span class="icon">📚</span>
+      Edukasi
+    </a>
+    <a href="konseling.html" class="menu">
+      <span class="icon">💬</span>
+      Konseling
+    </a>
+    <a href="lokasi.html" class="menu">
+      <span class="icon">📍</span>
+      Layanan Lokasi
+    </a>
+  </div>
 
-  <!-- Emergency button (Telegram) -->
-  <button class="emergency" id="btnEmergency" aria-label="Tombol Darurat">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2v2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><path d="M7 6l1.5 3" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="13" r="7" stroke="#fff" stroke-width="1.6" stroke-opacity="0.9"/></svg>
-    <span>🚨 DARURAT</span>
-  </button>
+  <!-- Running Info -->
+  <div class="marquee">
+    <span>📢 Hotline Kelurahan Bulukerto Magetan · Hubungi WA: +62 813-3641-5504 · Didukung SmartCity Magetan</span>
+  </div>
+
+  <!-- Tombol Darurat -->
+  <button class="emergency-btn" onclick="sendEmergency()">🚨 Darurat</button>
 
   <script>
-    // === TELEGRAM CONFIG (sesuai ralat kamu) ===
     const TOKEN = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg";
     const CHAT_ID = "-4947604362";
-    const TG_URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
-    // helper toast
-    const toast = document.getElementById('toast');
-    function showToast(msg, type='') {
-      toast.innerText = msg;
-      toast.className = 'toast' + (type ? ' ' + type : '');
-      toast.style.display = 'block';
-      setTimeout(()=> { toast.style.display='none'; toast.className='toast'; }, 4200);
+    function sendEmergency() {
+      fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: "🚨 [DARURAT] Warga menekan tombol darurat di portal layanan KDRT!"
+        }),
+      })
+      .then(res => alert("🚨 Laporan Darurat telah dikirim ke petugas!"))
+      .catch(err => alert("❌ Gagal mengirim laporan darurat."));
     }
-
-    // Emergency button logic
-    document.getElementById('btnEmergency').addEventListener('click', async () => {
-      if (!confirm('Kirim notifikasi DARURAT ke petugas?')) return;
-
-      const message = [
-        "🚨 *LAPORAN DARURAT* 🚨",
-        "",
-        "Sumber: Inovasi Kelurahan Bulukerto — Aplikasi Layanan",
-        `Waktu: ${new Date().toLocaleString()}`,
-        "",
-        "Mohon tindak lanjut segera."
-      ].join('\n');
-
-      try {
-        const res = await fetch(TG_URL, {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({
-            chat_id: CHAT_ID,
-            text: message,
-            parse_mode: 'Markdown'
-          })
-        });
-        const data = await res.json();
-        if (data && data.ok) {
-          showToast('✅ Notifikasi darurat terkirim ke petugas.', 'success');
-        } else {
-          console.error('Telegram error:', data);
-          showToast('❌ Gagal mengirim notifikasi. Cek console.', 'error');
-        }
-      } catch (err) {
-        console.error('Fetch error:', err);
-        showToast('❌ Kesalahan jaringan. Coba lagi.', 'error');
-      }
-    });
   </script>
 </body>
 </html>
