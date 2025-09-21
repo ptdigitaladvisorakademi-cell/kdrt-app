@@ -169,25 +169,65 @@
     <span>📢 Hotline Kelurahan Bulukerto Magetan · Hubungi WA: +62 813-3641-5504 · Didukung SmartCity Magetan</span>
   </div>
 
-  <!-- Tombol Darurat -->
-  <button class="emergency-btn" onclick="sendEmergency()">🚨 Darurat</button>
+ <!-- toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Emergency button (Telegram) -->
+  <button class="emergency" id="btnEmergency" aria-label="Tombol Darurat">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2v2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><path d="M7 6l1.5 3" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="13" r="7" stroke="#fff" stroke-width="1.6" stroke-opacity="0.9"/></svg>
+    <span>🚨 DARURAT</span>
+  </button>
 
   <script>
+    // === TELEGRAM CONFIG (sesuai ralat kamu) ===
     const TOKEN = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg";
     const CHAT_ID = "-4947604362";
+    const TG_URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
-    function sendEmergency() {
-      fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: "🚨 [DARURAT] Warga menekan tombol darurat di portal layanan KDRT!"
-        }),
-      })
-      .then(res => alert("🚨 Laporan Darurat telah dikirim ke petugas!"))
-      .catch(err => alert("❌ Gagal mengirim laporan darurat."));
+    // helper toast
+    const toast = document.getElementById('toast');
+    function showToast(msg, type='') {
+      toast.innerText = msg;
+      toast.className = 'toast' + (type ? ' ' + type : '');
+      toast.style.display = 'block';
+      setTimeout(()=> { toast.style.display='none'; toast.className='toast'; }, 4200);
     }
+
+    // Emergency button logic
+    document.getElementById('btnEmergency').addEventListener('click', async () => {
+      if (!confirm('Kirim notifikasi DARURAT ke petugas?')) return;
+
+      const message = [
+        "🚨 *LAPORAN DARURAT* 🚨",
+        "",
+        "Sumber: Inovasi Kelurahan Bulukerto — Aplikasi Layanan",
+        `Waktu: ${new Date().toLocaleString()}`,
+        "",
+        "Mohon tindak lanjut segera."
+      ].join('\n');
+
+      try {
+        const res = await fetch(TG_URL, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: 'Markdown'
+          })
+        });
+        const data = await res.json();
+        if (data && data.ok) {
+          showToast('✅ Notifikasi darurat terkirim ke petugas.', 'success');
+        } else {
+          console.error('Telegram error:', data);
+          showToast('❌ Gagal mengirim notifikasi. Cek console.', 'error');
+        }
+      } catch (err) {
+        console.error('Fetch error:', err);
+        showToast('❌ Kesalahan jaringan. Coba lagi.', 'error');
+      }
+    });
   </script>
 </body>
 </html>
