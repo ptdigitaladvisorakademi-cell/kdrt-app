@@ -1,0 +1,80 @@
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Bell } from "lucide-react";
+
+export default function LayananLokasi() {
+  const [showNotif, setShowNotif] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowNotif(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const lokasi = [
+    { nama: "Shelter Aman Bulukerto", alamat: "Jl. Merpati No. 12", jam: "24 Jam" },
+    { nama: "P2TP2A Magetan", alamat: "Jl. Basuki No. 45", jam: "08.00 - 16.00" },
+    { nama: "Puskesmas Bulukerto", alamat: "Jl. Bromo No. 88", jam: "07.00 - 14.00" },
+    { nama: "Polsek Bulukerto", alamat: "Jl. Diponegoro No. 5", jam: "24 Jam" },
+  ];
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-pink-100 to-purple-200 p-6">
+      {/* Judul */}
+      <motion.h1
+        className="text-2xl md:text-4xl font-bold text-gray-800 mb-4"
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        Layanan Lokasi Kelurahan Bulukerto
+      </motion.h1>
+
+      {/* Frame ala iPhone */}
+      <motion.div
+        className="bg-white rounded-[2.5rem] shadow-xl border-4 border-gray-200 p-6 w-[350px] relative"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.7, type: "spring" }}
+      >
+        <div className="text-center text-sm text-gray-500 mb-3">
+          Pilih lokasi layanan terdekat
+        </div>
+
+        <div className="space-y-4">
+          {lokasi.map((item, idx) => (
+            <motion.div
+              key={idx}
+              className="p-4 rounded-2xl shadow bg-gradient-to-r from-pink-50 to-purple-50 hover:from-pink-100 hover:to-purple-100 cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <h3 className="font-semibold text-gray-800">{item.nama}</h3>
+              <p className="text-sm text-gray-600">{item.alamat}</p>
+              <span className="text-xs text-purple-700 font-medium">
+                Jam Operasional: {item.jam}
+              </span>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Notifikasi ala iPhone */}
+      {showNotif && (
+        <motion.div
+          className="fixed top-5 right-5 bg-white shadow-lg rounded-2xl px-4 py-3 flex items-center space-x-3 border border-gray-200"
+          initial={{ x: 300, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6, type: "spring" }}
+        >
+          <Bell className="text-purple-600" />
+          <div>
+            <p className="text-sm font-semibold text-gray-800">Info Lokasi</p>
+            <p className="text-xs text-gray-600">
+              Shelter Aman Bulukerto tersedia 24 jam 🚨
+            </p>
+          </div>
+        </motion.div>
+      )}
+    </div>
+  );
+}
