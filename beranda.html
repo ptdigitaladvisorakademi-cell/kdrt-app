@@ -13,52 +13,50 @@
       animation: gradientBG 8s ease infinite;
       color: white;
       text-align: center;
+      overflow-x: hidden;
     }
-
     @keyframes gradientBG {
       0% {background-position: 0% 50%;}
       50% {background-position: 100% 50%;}
       100% {background-position: 0% 50%;}
     }
 
-    /* Judul typing effect */
+    /* Typing judul */
     h1 {
-      font-size: 26px;
-      margin: 20px 0 10px 0;
+      font-size: 28px;
+      margin: 25px 0 10px;
       white-space: nowrap;
       overflow: hidden;
-      border-right: 3px solid rgba(255,255,255,0.75);
+      border-right: 3px solid rgba(255,255,255,0.8);
       width: 0;
-      animation: typing 4s steps(40, end) forwards, blink .75s step-end infinite;
+      animation: typing 4s steps(40, end) forwards, blink .7s step-end infinite;
     }
+    @keyframes typing { from {width: 0} to {width: 100%} }
+    @keyframes blink { 50% { border-color: transparent } }
 
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-    @keyframes blink {
-      50% { border-color: transparent }
-    }
-
-    /* Deskripsi */
     .desc {
       font-size: 16px;
       opacity: 0.9;
       margin-bottom: 15px;
-      line-height: 1.5;
     }
 
     /* Portal ala iPhone */
     .portal {
       background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
       border-radius: 25px;
       padding: 20px;
-      margin: 15px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      margin: 15px auto;
+      max-width: 600px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
       font-size: 15px;
       line-height: 1.6;
       text-align: justify;
+      animation: fadeInUp 1.2s ease;
+    }
+    @keyframes fadeInUp {
+      from {opacity:0; transform: translateY(30px);}
+      to {opacity:1; transform: translateY(0);}
     }
 
     /* Menu grid */
@@ -70,35 +68,34 @@
       max-width: 500px;
       margin: 20px auto;
     }
-
     .menu {
       background: rgba(255,255,255,0.15);
-      border-radius: 20px;
+      border-radius: 22px;
       padding: 25px 10px;
       text-align: center;
-      color: white;
       font-size: 17px;
       font-weight: bold;
       cursor: pointer;
-      transition: transform 0.2s, background 0.3s;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      transition: all .3s ease;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
     }
     .menu:hover {
-      transform: scale(1.07);
+      transform: scale(1.08) translateY(-3px);
       background: rgba(255,255,255,0.3);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.35);
     }
     .icon {
       font-size: 40px;
-      display: block;
       margin-bottom: 8px;
+      display: block;
     }
 
-    /* Walking bar */
+    /* Marquee */
     .marquee {
       position: fixed;
-      bottom: 60px;
+      bottom: 70px;
       width: 100%;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0,0,0,0.35);
       padding: 8px 0;
       font-size: 14px;
       white-space: nowrap;
@@ -110,29 +107,68 @@
       animation: marquee 15s linear infinite;
     }
     @keyframes marquee {
-      from { transform: translateX(0); }
-      to { transform: translateX(-100%); }
+      from { transform: translateX(0);}
+      to { transform: translateX(-100%);}
     }
 
-    /* Tombol darurat */
-    .emergency-btn {
+    /* Tombol darurat modern */
+    .emergency {
       position: fixed;
-      bottom: 10px;
-      right: 10px;
-      background: red;
-      color: white;
+      bottom: 15px;
+      right: 15px;
+      background: linear-gradient(135deg, #ff3b30, #ff453a);
+      color: #fff;
       font-size: 16px;
       font-weight: bold;
-      padding: 15px 25px;
+      padding: 15px 28px;
       border-radius: 50px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.35);
       cursor: pointer;
-      transition: transform 0.2s;
       z-index: 999;
+      animation: pulse 2s infinite;
+      transition: transform .2s ease;
     }
-    .emergency-btn:hover {
-      transform: scale(1.1);
-      background: darkred;
+    .emergency:hover { transform: scale(1.1);}
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255,59,48,0.6);}
+      70% { box-shadow: 0 0 0 20px rgba(255,59,48,0);}
+      100% { box-shadow: 0 0 0 0 rgba(255,59,48,0);}
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 260px;
+      max-width: 90%;
+      padding: 14px 20px;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      text-align: left;
+      z-index: 1000;
+      opacity: 0;
+      transition: all .5s ease;
+    }
+    .toast.show {
+      top: 20px;
+      opacity: 1;
+    }
+    .toast.success::before {
+      content: "✅ ";
+    }
+    .toast.error::before {
+      content: "❌ ";
     }
   </style>
 </head>
@@ -146,57 +182,41 @@
   </div>
 
   <div class="container">
-    <a href="laporankekerasan.html" class="menu">
-      <span class="icon">📢</span>
-      Lapor Kekerasan
-    </a>
-    <a href="edukasi.html" class="menu">
-      <span class="icon">📚</span>
-      Edukasi
-    </a>
-    <a href="konseling.html" class="menu">
-      <span class="icon">💬</span>
-      Konseling
-    </a>
-    <a href="lokasi.html" class="menu">
-      <span class="icon">📍</span>
-      Layanan Lokasi
-    </a>
+    <a href="laporankekerasan.html" class="menu"><span class="icon">📢</span>Lapor Kekerasan</a>
+    <a href="edukasi.html" class="menu"><span class="icon">📚</span>Edukasi</a>
+    <a href="konseling.html" class="menu"><span class="icon">💬</span>Konseling</a>
+    <a href="lokasi.html" class="menu"><span class="icon">📍</span>Layanan Lokasi</a>
   </div>
 
-  <!-- Running Info -->
   <div class="marquee">
-    <span>📢 Hotline Kelurahan Bulukerto Magetan · Hubungi WA: +62 813-3641-5504 · Didukung SmartCity Magetan</span>
+    <span>📢 Hotline Kelurahan Bulukerto Magetan · WA: +62 813-3641-5504 · Didukung SmartCity Magetan</span>
   </div>
 
- <!-- toast -->
+  <!-- Toast -->
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <!-- Emergency button (Telegram) -->
+  <!-- Tombol Darurat -->
   <button class="emergency" id="btnEmergency" aria-label="Tombol Darurat">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2v2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><path d="M7 6l1.5 3" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="13" r="7" stroke="#fff" stroke-width="1.6" stroke-opacity="0.9"/></svg>
-    <span>🚨 DARURAT</span>
+    🚨 DARURAT
   </button>
 
   <script>
-    // === TELEGRAM CONFIG (sesuai ralat kamu) ===
     const TOKEN = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg";
     const CHAT_ID = "-4947604362";
     const TG_URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
-    // helper toast
     const toast = document.getElementById('toast');
     function showToast(msg, type='') {
-      toast.innerText = msg;
-      toast.className = 'toast' + (type ? ' ' + type : '');
-      toast.style.display = 'block';
-      setTimeout(()=> { toast.style.display='none'; toast.className='toast'; }, 4200);
+      toast.textContent = msg;
+      toast.className = 'toast ' + type;
+      setTimeout(()=> toast.classList.add('show'), 100);
+      setTimeout(()=>{
+        toast.classList.remove('show');
+        setTimeout(()=>{ toast.textContent=''; toast.className='toast'; },500);
+      },4000);
     }
 
-    // Emergency button logic
     document.getElementById('btnEmergency').addEventListener('click', async () => {
-      if (!confirm('Kirim notifikasi DARURAT ke petugas?')) return;
-
       const message = [
         "🚨 *LAPORAN DARURAT* 🚨",
         "",
@@ -210,22 +230,16 @@
         const res = await fetch(TG_URL, {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({
-            chat_id: CHAT_ID,
-            text: message,
-            parse_mode: 'Markdown'
-          })
+          body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: 'Markdown' })
         });
         const data = await res.json();
-        if (data && data.ok) {
-          showToast('✅ Notifikasi darurat terkirim ke petugas.', 'success');
+        if (data.ok) {
+          showToast("Notifikasi darurat terkirim ke petugas.", "success");
         } else {
-          console.error('Telegram error:', data);
-          showToast('❌ Gagal mengirim notifikasi. Cek console.', 'error');
+          showToast("Gagal mengirim notifikasi.", "error");
         }
-      } catch (err) {
-        console.error('Fetch error:', err);
-        showToast('❌ Kesalahan jaringan. Coba lagi.', 'error');
+      } catch {
+        showToast("Kesalahan jaringan. Coba lagi.", "error");
       }
     });
   </script>
