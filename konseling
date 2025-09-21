@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konseling KDRT - Bulukerto</title>
+  <style>
+    /* Background Gradient Animasi */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff6a00, #ee0979);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Card Form */
+    .form-container {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 420px;
+      color: white;
+      text-align: center;
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    label {
+      font-size: 14px;
+      margin-bottom: 6px;
+      display: block;
+      font-weight: 500;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      outline: none;
+      font-size: 14px;
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+
+    textarea {
+      resize: none;
+      height: 100px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #ff6a00, #ee0979);
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      transform: scale(1.03);
+    }
+
+    .status {
+      margin-top: 15px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .success {
+      color: #00ffb3;
+    }
+
+    .error {
+      color: #ff4d4d;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Form Konseling KDRT</h2>
+    <form id="konselingForm">
+      <div class="form-group">
+        <label for="nama">Nama Lengkap</label>
+        <input type="text" id="nama" name="nama" placeholder="Masukkan nama Anda" required>
+      </div>
+      <div class="form-group">
+        <label for="alamat">Alamat</label>
+        <input type="text" id="alamat" name="alamat" placeholder="Masukkan alamat" required>
+      </div>
+      <div class="form-group">
+        <label for="pesan">Keluhan / Pesan</label>
+        <textarea id="pesan" name="pesan" placeholder="Tuliskan keluhan Anda..." required></textarea>
+      </div>
+      <button type="submit">Kirim Laporan</button>
+      <div id="statusMsg" class="status"></div>
+    </form>
+  </div>
+
+  <script>
+    const TOKEN = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg";
+    const CHAT_ID = "-4947604362";
+    const URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+    document.getElementById("konselingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nama = document.getElementById("nama").value;
+      const alamat = document.getElementById("alamat").value;
+      const pesan = document.getElementById("pesan").value;
+
+      const text = `
+🚨 *Laporan Konseling KDRT* 🚨
+👤 Nama: ${nama}
+🏠 Alamat: ${alamat}
+💬 Keluhan: ${pesan}
+      `;
+
+      fetch(URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: text,
+          parse_mode: "Markdown"
+        })
+      })
+      .then(res => {
+        if (res.ok) {
+          document.getElementById("statusMsg").style.display = "block";
+          document.getElementById("statusMsg").className = "status success";
+          document.getElementById("statusMsg").innerText = "✅ Laporan berhasil dikirim.";
+          document.getElementById("konselingForm").reset();
+        } else {
+          throw new Error("Gagal mengirim laporan.");
+        }
+      })
+      .catch(() => {
+        document.getElementById("statusMsg").style.display = "block";
+        document.getElementById("statusMsg").className = "status error";
+        document.getElementById("statusMsg").innerText = "❌ Terjadi kesalahan. Coba lagi.";
+      });
+    });
+  </script>
+</body>
+</html>
