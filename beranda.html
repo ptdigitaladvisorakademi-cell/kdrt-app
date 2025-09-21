@@ -1,188 +1,221 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aplikasi KDRT Kelurahan Bulukerto</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aplikasi KDRT — Kelurahan Bulukerto</title>
+  <meta name="description" content="Layanan KDRT Kelurahan Bulukerto — Lapor, Edukasi, Konseling, Lokasi. Tombol darurat terkoneksi Telegram. Hotline WA tersedia."/>
   <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff512f, #dd2476);
-      background-size: 400% 400%;
-      animation: gradientBG 12s ease infinite;
-      overflow: hidden;
+    /* ---------- Background gradient animated (fast, elegant) ---------- */
+    :root{
+      --glass: rgba(255,255,255,0.12);
+      --glass-2: rgba(255,255,255,0.06);
+      --accent1: #6a11cb;
+      --accent2: #2575fc;
+      --accent3: #ff6a00;
+      --accent4: #ee0979;
     }
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+    html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;background:linear-gradient( -45deg, var(--accent1), var(--accent2), var(--accent3), var(--accent4));background-size:400% 400%;animation:bgAnim 10s linear infinite;color:#fff; }
+    @keyframes bgAnim{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+    /* layout */
+    .wrap{max-width:1100px;margin:32px auto;padding:28px;display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:start;box-sizing:border-box;}
+    @media (max-width:900px){.wrap{grid-template-columns:1fr;padding:18px}}
+    /* left area: header + menu */
+    .left{
+      z-index:2;
     }
 
-    /* Judul Animated */
-    .title {
-      font-size: 26px;
-      font-weight: bold;
-      color: #fff;
-      margin-top: 30px;
-      margin-bottom: 5px;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 3px solid #fff;
-      animation: typing 5s steps(40, end) infinite alternate;
+    /* Animated typing title */
+    .title-wrap{overflow:hidden;white-space:nowrap;border-right:3px solid rgba(255,255,255,0.18);width:100%;max-width:800px}
+    .title{
+      display:inline-block;font-weight:700;font-size:28px;letter-spacing:0.2px;
+      animation:typing 4s steps(40,end) 1; /* only run on load */
     }
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
+    @keyframes typing{from{width:0}to{width:100%}}
+
+    /* Running info bar */
+    .marquee{
+      margin-top:12px;background:rgba(0,0,0,0.32);padding:10px;border-radius:10px;overflow:hidden;position:relative;
+    }
+    .marquee span{display:inline-block;padding-left:100%;animation:scroll 18s linear infinite}
+    @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+
+    /* menu grid */
+    .grid{
+      margin-top:22px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px;
+    }
+    .card{
+      background:var(--glass);backdrop-filter:blur(8px);border-radius:14px;padding:22px;text-align:center;color:#fff;text-decoration:none;box-shadow:0 10px 30px rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);
+      transition:transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    }
+    .card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 18px 40px rgba(0,0,0,0.35);background:linear-gradient(180deg,rgba(255,255,255,0.06),var(--glass));}
+    .card .icon{font-size:40px;filter:drop-shadow(0 6px 16px rgba(0,0,0,0.35))}
+    .card .label{font-weight:700;font-size:16px}
+
+    /* right panel (illustration + quote + hotline) */
+    .panel{
+      position:relative;padding:24px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));box-shadow:0 12px 40px rgba(0,0,0,0.35);backdrop-filter: blur(6px);border:1px solid rgba(255,255,255,0.06)
+    }
+    .illustration{display:flex;justify-content:center;margin-bottom:12px}
+    /* simple caption / quote */
+    .quote{font-size:14px;color:rgba(255,255,255,0.95);text-align:center;margin-top:8px;font-style:italic}
+
+    /* hotline WA button */
+    .hotline{
+      display:flex;gap:10px;align-items:center;justify-content:center;margin-top:14px;
+    }
+    .wa-btn{
+      display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,#25D366,#128C7E);padding:10px 14px;border-radius:12px;color:white;font-weight:700;text-decoration:none;box-shadow:0 8px 20px rgba(18,140,126,0.18)
     }
 
-    /* Running Info Bar */
-    .marquee {
-      width: 100%;
-      background: rgba(0,0,0,0.5);
-      color: #fff;
-      font-size: 14px;
-      padding: 8px;
-      position: absolute;
-      top: 70px;
-      white-space: nowrap;
-      overflow: hidden;
+    /* emergency floating - Telegram send */
+    .emergency{
+      position:fixed;right:20px;bottom:20px;background:linear-gradient(135deg,#ff416c,#ff4b2b);color:#fff;border:none;padding:16px 18px;border-radius:999px;font-weight:800;box-shadow:0 18px 40px rgba(0,0,0,0.45);cursor:pointer;z-index:999;display:flex;gap:12px;align-items:center;
+      transform-origin:center;animation:pulse 1.6s infinite;
     }
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 15s linear infinite;
-    }
-    @keyframes scroll {
-      0% { transform: translateX(0%); }
-      100% { transform: translateX(-100%); }
-    }
+    .emergency:hover{transform:scale(1.05)}
+    @keyframes pulse{0%{box-shadow:0 12px 30px rgba(255,75,75,0.22)}50%{box-shadow:0 18px 45px rgba(255,75,75,0.35)}100%{box-shadow:0 12px 30px rgba(255,75,75,0.22)}}
 
-    /* Container */
-    .container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      width: 90%;
-      max-width: 600px;
-      margin-top: 140px;
-      z-index: 2;
-    }
+    /* small helper */
+    .muted{font-size:13px;color:rgba(255,255,255,0.85)}
+    .small{font-size:13px;color:rgba(255,255,255,0.75);text-align:center;margin-top:10px}
 
-    .menu {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 20px;
-      padding: 25px 10px;
-      text-align: center;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: transform 0.2s, background 0.3s;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
-    .menu:hover {
-      transform: scale(1.05);
-      background: rgba(255, 255, 255, 0.3);
-    }
-    .icon {
-      font-size: 40px;
-      display: block;
-      margin-bottom: 10px;
-    }
+    /* accessibility focus */
+    a:focus,button:focus{outline:3px solid rgba(255,255,255,0.18);outline-offset:4px}
 
-    /* Quote */
-    .quote {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #fff;
-      font-style: italic;
-      text-align: center;
-      max-width: 500px;
-    }
-
-    /* Emergency Button */
-    .emergency-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: red;
-      color: white;
-      font-weight: bold;
-      padding: 15px 25px;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-      animation: pulse 1.5s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
   </style>
 </head>
 <body>
-  <!-- Judul -->
-  <div class="title">Aplikasi KDRT Kelurahan Bulukerto</div>
+  <div class="wrap">
+    <!-- LEFT: title + marquee + menu -->
+    <div class="left">
+      <div class="title-wrap"><div class="title">Aplikasi Layanan KDRT — Kelurahan Bulukerto, Magetan</div></div>
 
-  <!-- Info Bar -->
-  <div class="marquee">
-    <span>🌐 Inovasi Smart City Kelurahan Bulukerto, Kabupaten Magetan | 📞 Hotline: 0812-1234-5678 | Bersama Kita Hentikan Kekerasan</span>
+      <div class="marquee" aria-hidden="true">
+        <span>🌐 Inovasi Kelurahan Bulukerto • Smart City Magetan • Hotline: +62 813-3641-5504 • Lapor KDRT — Rahasia & Aman</span>
+      </div>
+
+      <div class="grid" role="navigation" aria-label="Menu Layanan">
+        <a class="card" href="https://ptdigitaladvisorakademi.github.io/kdrt-app/laporankekerasan.html" >
+          <div class="icon">📢</div>
+          <div class="label">Lapor Kekerasan</div>
+          <div class="small">Form & bukti aman</div>
+        </a>
+
+        <a class="card" href="https://ptdigitaladvisorakademi.github.io/kdrt-app/edukasi.html" >
+          <div class="icon">📚</div>
+          <div class="label">Edukasi</div>
+          <div class="small">Materi pencegahan & awareness</div>
+        </a>
+
+        <a class="card" href="https://ptdigitaladvisorakademi.github.io/kdrt-app/konseling.html" >
+          <div class="icon">💬</div>
+          <div class="label">Konseling</div>
+          <div class="small">Ambil sesi konseling anonim</div>
+        </a>
+
+        <a class="card" href="https://ptdigitaladvisorakademi.github.io/kdrt-app/lokasi.html" >
+          <div class="icon">📍</div>
+          <div class="label">Layanan Lokasi</div>
+          <div class="small">Shelter, P2TP2A, Puskesmas</div>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: illustration + quote + hotline -->
+    <aside class="panel" role="region" aria-label="Panel Informasi">
+      <div class="illustration" aria-hidden="true">
+        <!-- Inline SVG: simple happy family illustration (scalable, lightweight) -->
+        <svg width="320" height="200" viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#FFD47A"/>
+              <stop offset="1" stop-color="#FF9A9E"/>
+            </linearGradient>
+          </defs>
+          <rect rx="16" width="320" height="200" fill="url(#g1)" opacity="0.12"></rect>
+          <!-- simplified figures -->
+          <g transform="translate(40,20)">
+            <!-- house -->
+            <path d="M40 80 L80 40 L120 80 V120 H0 V80 Z" fill="#fff" opacity="0.12"></path>
+            <!-- family (3 circles + bodies) -->
+            <circle cx="20" cy="110" r="14" fill="#fff" opacity="0.95"></circle>
+            <rect x="10" y="124" width="20" height="30" rx="8" fill="#fff" opacity="0.9"></rect>
+
+            <circle cx="70" cy="80" r="18" fill="#fff" opacity="0.95"></circle>
+            <rect x="58" y="100" width="24" height="44" rx="10" fill="#fff" opacity="0.9"></rect>
+
+            <circle cx="110" cy="110" r="12" fill="#fff" opacity="0.95"></circle>
+            <rect x="102" y="125" width="16" height="26" rx="8" fill="#fff" opacity="0.9"></rect>
+          </g>
+        </svg>
+      </div>
+
+      <div class="quote">"Keluarga aman, masyarakat kuat — bersama kita hentikan kekerasan dalam rumah tangga."</div>
+
+      <div class="hotline" style="justify-content:center">
+        <a class="wa-btn" href="https://wa.me/6281336415504?text=Halo%20Kelurahan%20Bulukerto%2C%20saya%20ingin%20menghubungi%20hotline." target="_blank" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" style="filter:drop-shadow(0 6px 14px rgba(0,0,0,0.18));">
+            <path fill="#fff" d="M20.52 3.48A11.94 11.94 0 0012 0C5.37 0 .01 5.36.01 12c0 2.12.56 4.09 1.62 5.83L0 24l6.46-1.66A11.95 11.95 0 0012 24c6.63 0 12-5.36 12-12 0-3.2-1.25-6.17-3.48-8.52zM12 21.5c-1.84 0-3.61-.5-5.12-1.44l-.36-.21-3.84.99.98-3.75-.24-.37A9.5 9.5 0 012.5 12C2.5 6.75 6.75 2.5 12 2.5S21.5 6.75 21.5 12 17.25 21.5 12 21.5z"/>
+            <path fill="#fff" d="M17.02 14.6l-1.4-.4a1 1 0 00-1.03.25l-.74.74a8.02 8.02 0 01-3.7-3.69l.73-.73a1 1 0 00.25-1.02l-.4-1.4a1 1 0 00-1-0.64l-2.01.5a1 1 0 00-.7.7 12 12 0 0011.86 11.86c.37 0 .67-.26.77-.62l.5-2.01a1 1 0 00-.64-1z"/>
+          </svg>
+          <span>Hotline WA</span>
+        </a>
+      </div>
+
+      <div class="small" style="margin-top:14px">Dikelola oleh Kelurahan Bulukerto — Smart City Magetan</div>
+    </aside>
   </div>
 
-  <!-- Menu -->
-  <div class="container">
-    <a href="laporankekerasan.html" class="menu">
-      <span class="icon">📢</span>
-      Lapor Kekerasan
-    </a>
-    <a href="edukasi.html" class="menu">
-      <span class="icon">📚</span>
-      Edukasi
-    </a>
-    <a href="konseling.html" class="menu">
-      <span class="icon">💬</span>
-      Konseling
-    </a>
-    <a href="lokasi.html" class="menu">
-      <span class="icon">📍</span>
-      Layanan Lokasi
-    </a>
-  </div>
-
-  <!-- Quote -->
-  <div class="quote">
-    "Keluarga harmonis adalah pondasi masyarakat yang kuat. Mari ciptakan rumah tangga bebas dari kekerasan."
-  </div>
-
-  <!-- Emergency Button -->
-  <button class="emergency-btn" onclick="sendEmergency()">
-    🚨 DARURAT
+  <!-- Emergency button (send to Telegram). Token & Chat ID provided (will be visible in client JS). -->
+  <button class="emergency" id="btnEmergency" aria-label="Tombol Darurat">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2v2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><path d="M7 6l1.5 3" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="13" r="7" stroke="#fff" stroke-width="1.6" stroke-opacity="0.9"/></svg>
+    <span>🚨 DARURAT</span>
   </button>
 
   <script>
-    function sendEmergency() {
-      const token = "GANTI_DENGAN_TOKEN";
-      const chatId = "GANTI_DENGAN_CHAT_ID";
-      const message = "🚨 DARURAT! Ada laporan membutuhkan bantuan segera dari aplikasi KDRT Bulukerto.";
+    // === TELEGRAM CONFIG ===
+    // Token & Chat ID inserted as you provided.
+    // WARNING: token visible in JS => for production, move to backend.
+    const TELEGRAM_TOKEN = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg";
+    const TELEGRAM_CHAT_ID = "-1001234567890"; // as you gave
 
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message
-        })
-      })
-      .then(res => alert("Laporan darurat terkirim ke petugas!"))
-      .catch(err => alert("Gagal mengirim laporan darurat."));
-    }
+    const emergencyBtn = document.getElementById('btnEmergency');
+    emergencyBtn.addEventListener('click', async () => {
+      // confirm quick
+      if (!confirm('Kirim notifikasi DARURAT ke petugas?')) return;
+
+      const msg = `🚨 *LAPORAN DARURAT* 🚨%0A%0A` +
+                  `Sumber: Aplikasi KDRT — Kelurahan Bulukerto%0A` +
+                  `Waktu: ${new Date().toLocaleString()}%0A` +
+                  `Mohon tindak lanjut segera.`;
+
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: decodeURIComponent(msg), // send plain text, Telegram will accept
+            parse_mode: 'Markdown'
+          })
+        });
+        const data = await res.json();
+        if (data && data.ok) {
+          alert('✅ Notifikasi darurat terkirim ke petugas.');
+        } else {
+          console.error('Telegram response error', data);
+          alert('❌ Gagal mengirim notifikasi. Cek console.');
+        }
+      } catch (err) {
+        console.error('Fetch error', err);
+        alert('❌ Terjadi kesalahan jaringan saat mengirim notifikasi.');
+      }
+    });
+
   </script>
 </body>
 </html>
