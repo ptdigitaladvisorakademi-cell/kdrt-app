@@ -11,34 +11,37 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: white;
       background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff512f, #dd2476);
       background-size: 400% 400%;
       animation: gradientBG 6s ease infinite;
     }
-
     @keyframes gradientBG {
       0% {background-position: 0% 50%;}
       50% {background-position: 100% 50%;}
       100% {background-position: 0% 50%;}
     }
-
     .container {
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.55);
       padding: 25px;
       border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
       width: 90%;
-      max-width: 400px;
+      max-width: 420px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-
     h2 {
-      margin-bottom: 20px;
-      font-size: 22px;
+      margin-bottom: 10px;
+      font-size: 24px;
     }
-
+    .info {
+      font-size: 14px;
+      margin-bottom: 20px;
+      color: #ddd;
+    }
     input, textarea {
       width: 100%;
       margin: 10px 0;
@@ -46,8 +49,8 @@
       border: none;
       border-radius: 10px;
       font-size: 16px;
+      outline: none;
     }
-
     button {
       width: 100%;
       padding: 15px;
@@ -60,21 +63,85 @@
       cursor: pointer;
       transition: transform 0.2s;
     }
+    button:hover { transform: scale(1.05); }
 
-    button:hover {
-      transform: scale(1.05);
+    /* Notifikasi iPhone style */
+    .notif {
+      position: fixed;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.95);
+      color: #333;
+      padding: 12px 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      font-size: 14px;
+      animation: slideDown 0.8s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
+    @keyframes slideDown {
+      from {transform: translate(-50%, -100px); opacity: 0;}
+      to {transform: translate(-50%, 0); opacity: 1;}
+    }
+
+    /* Widget jam */
+    .clock {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: rgba(0,0,0,0.6);
+      padding: 8px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    /* Tombol WhatsApp */
+    .whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      color: white;
+      font-size: 16px;
+      padding: 12px 18px;
+      border-radius: 50px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+    .whatsapp:hover { transform: scale(1.05); }
   </style>
 </head>
 <body>
+  <!-- Notifikasi Selamat Datang -->
+  <div class="notif">👋 Selamat datang! Jangan segan untuk hubungi kami ya.</div>
+
+  <!-- Widget Jam -->
+  <div class="clock" id="clock"></div>
+
   <div class="container">
     <h2>📢 Lapor Kekerasan</h2>
+    <p class="info">Alamat: Jl. Bromo No. 88, Bulukerto, Magetan <br> 📞 WA: 081336415504</p>
+    
     <input type="text" id="nama" placeholder="Nama Anda">
     <textarea id="pesan" rows="4" placeholder="Tulis laporan Anda di sini..."></textarea>
     <button onclick="kirimLaporan()">🚨 Kirim Laporan</button>
   </div>
 
+  <!-- Tombol WhatsApp -->
+  <a class="whatsapp" href="https://wa.me/6281336415504" target="_blank">
+    💬 Chat WA
+  </a>
+
   <script>
+    // Kirim laporan via Telegram
     async function kirimLaporan() {
       const nama = document.getElementById("nama").value;
       const pesan = document.getElementById("pesan").value;
@@ -84,7 +151,6 @@
         return;
       }
 
-      // Token dan chat ID dari bot Telegram
       const token = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg";
       const chatId = "-4947604362";
       const text = `🚨 LAPORAN DARURAT 🚨\n👤 Nama: ${nama}\n💬 Pesan: ${pesan}`;
@@ -97,20 +163,29 @@
         });
 
         const data = await res.json();
-        console.log("Respon Telegram:", data);
-
         if (data.ok) {
-          alert("✅ Laporan berhasil dikirim ke Telegram!");
+          alert("✅ Laporan berhasil dikirim!");
           document.getElementById("nama").value = "";
           document.getElementById("pesan").value = "";
         } else {
-          alert("❌ Gagal kirim laporan.\n" + JSON.stringify(data));
+          alert("❌ Gagal kirim laporan.");
         }
       } catch (err) {
-        console.error("Error:", err);
-        alert("⚠️ Terjadi error saat menghubungi Telegram API. Cek console (F12).");
+        console.error(err);
+        alert("⚠️ Error saat menghubungi server.");
       }
     }
+
+    // Jam Digital
+    function updateClock() {
+      const now = new Date();
+      const jam = now.getHours().toString().padStart(2,"0");
+      const menit = now.getMinutes().toString().padStart(2,"0");
+      const detik = now.getSeconds().toString().padStart(2,"0");
+      document.getElementById("clock").innerText = `${jam}:${menit}:${detik}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
   </script>
 </body>
 </html>
