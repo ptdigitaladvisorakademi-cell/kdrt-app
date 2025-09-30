@@ -32,7 +32,7 @@
       transform: translateX(-50%);
       width: 90%;
       max-width: 500px;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.85);
       color: #fff;
       padding: 20px;
       border-radius: 20px;
@@ -41,8 +41,8 @@
       animation: glow 3s infinite alternate, fadeInDown 0.8s ease;
     }
     @keyframes glow {
-      0% { box-shadow: 0 0 10px #ff6a00; }
-      50% { box-shadow: 0 0 20px #6a11cb; }
+      0% { box-shadow: 0 0 15px #ff6a00; }
+      50% { box-shadow: 0 0 25px #6a11cb; }
       100% { box-shadow: 0 0 30px #2575fc; }
     }
     @keyframes fadeInDown {
@@ -53,7 +53,7 @@
       background: none;
       border: none;
       color: #fff;
-      font-size: 18px;
+      font-size: 20px;
       float: right;
       cursor: pointer;
     }
@@ -75,11 +75,25 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Judul Animatif */
     .form-container h2 {
       margin-bottom: 20px;
-      font-size: 24px;
-      font-weight: 700;
+      font-size: 26px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #ff6a00, #ee0979, #2575fc, #6a11cb);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 6s linear infinite;
+      text-shadow: 0 0 8px rgba(255,255,255,0.5);
     }
+    @keyframes shine {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     .form-group {
       margin-bottom: 18px;
       text-align: left;
@@ -138,8 +152,8 @@
     /* Clock Widget */
     .clock {
       position: fixed;
-      bottom: 20px;
-      left: 20px;
+      top: 20px;
+      right: 20px;
       font-size: 20px;
       font-weight: bold;
       color: white;
@@ -178,9 +192,9 @@
     <h3>📢 Layanan Konseling KDRT</h3>
     <p>
       Layanan ini memudahkan warga untuk melaporkan kasus KDRT dan pengajuan konseling.  
-      Anda dapat menemukan lokasi layanan di <b>Puskesmas Candirejo</b>, <b>Polsek Magetan</b>, <b>Dinas PPKBPA</b>, dan <b>Kelurahan Bulukerto</b>.  
+      Anda kami bantu untuk menemukan lokasi layanan di <b>Puskesmas Candirejo</b>, <b>Polsek Magetan</b>, <b>Dinas PPKBPA</b><b></b>.   
       Semua laporan akan ditindaklanjuti cepat oleh petugas kelurahan.  
-      Jangan segan dan malu, sayangi diri Anda 💜 Kami siap membantu!
+      Jangan segan dan malu ya, sayangi diri Anda 💜 Kami siap membantu!
     </p>
   </div>
 
@@ -191,6 +205,10 @@
       <div class="form-group">
         <label for="nama">Nama Lengkap</label>
         <input type="text" id="nama" name="nama" placeholder="Masukkan nama Anda" required>
+      </div>
+      <div class="form-group">
+        <label for="hp">No. Whatsapp</label>
+        <input type="tel" id="hp" name="hp" placeholder="Masukkan nomor HP aktif" required>
       </div>
       <div class="form-group">
         <label for="alamat">Alamat</label>
@@ -229,12 +247,14 @@
     document.getElementById("konselingForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const nama = document.getElementById("nama").value;
+      const hp = document.getElementById("hp").value;
       const alamat = document.getElementById("alamat").value;
       const pesan = document.getElementById("pesan").value;
 
       const text = `
 🚨 *Laporan Konseling KDRT* 🚨
 👤 Nama: ${nama}
+📱 HP: ${hp}
 🏠 Alamat: ${alamat}
 💬 Keluhan: ${pesan}
       `;
