@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Konseling KDRT - Bulukerto</title>
   <style>
-    /* Background Gradient Animasi */
+    /* Background Gradient Animatif */
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -16,15 +16,49 @@
       background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff6a00, #ee0979);
       background-size: 400% 400%;
       animation: gradientBG 12s ease infinite;
+      overflow: hidden;
     }
-
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
-    /* Card Form */
+    /* Popup Notifikasi */
+    .popup {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 500px;
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.4);
+      z-index: 1000;
+      animation: glow 3s infinite alternate, fadeInDown 0.8s ease;
+    }
+    @keyframes glow {
+      0% { box-shadow: 0 0 10px #ff6a00; }
+      50% { box-shadow: 0 0 20px #6a11cb; }
+      100% { box-shadow: 0 0 30px #2575fc; }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translate(-50%, -40px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+    .popup button {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      float: right;
+      cursor: pointer;
+    }
+
+    /* Form Card */
     .form-container {
       background: rgba(255, 255, 255, 0.15);
       padding: 30px;
@@ -37,31 +71,25 @@
       text-align: center;
       animation: fadeIn 1.2s ease;
     }
-
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     .form-container h2 {
       margin-bottom: 20px;
       font-size: 24px;
       font-weight: 700;
-      letter-spacing: 1px;
     }
-
     .form-group {
       margin-bottom: 18px;
       text-align: left;
     }
-
     label {
       font-size: 14px;
       margin-bottom: 6px;
       display: block;
       font-weight: 500;
     }
-
     input, textarea {
       width: 100%;
       padding: 12px;
@@ -71,17 +99,16 @@
       font-size: 14px;
       background: rgba(255,255,255,0.2);
       color: white;
+      transition: 0.3s ease;
     }
-
-    input::placeholder, textarea::placeholder {
-      color: rgba(255,255,255,0.6);
+    input:focus, textarea:focus {
+      box-shadow: 0 0 12px #00ffcc;
+      background: rgba(255,255,255,0.3);
     }
-
     textarea {
       resize: none;
       height: 100px;
     }
-
     button {
       width: 100%;
       padding: 14px;
@@ -93,30 +120,71 @@
       color: white;
       cursor: pointer;
       transition: all 0.3s ease;
+      box-shadow: 0 0 12px rgba(255,255,255,0.3);
     }
-
     button:hover {
       background: linear-gradient(135deg, #2575fc, #6a11cb);
-      transform: scale(1.03);
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00e6ff;
     }
-
     .status {
       margin-top: 15px;
       font-size: 14px;
       display: none;
     }
+    .success { color: #00ffb3; }
+    .error { color: #ff4d4d; }
 
-    .success {
-      color: #00ffb3;
+    /* Clock Widget */
+    .clock {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.6);
+      box-shadow: 0 0 15px #00ffcc;
     }
 
-    .error {
-      color: #ff4d4d;
+    /* Tombol WhatsApp */
+    .whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: white;
+      border-radius: 50px;
+      padding: 12px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 15px;
+      box-shadow: 0 0 15px #25d366;
+      transition: 0.3s ease;
+    }
+    .whatsapp:hover {
+      box-shadow: 0 0 25px #00ffcc;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
 
+  <!-- Popup -->
+  <div class="popup" id="popupBox">
+    <button onclick="document.getElementById('popupBox').style.display='none'">✖</button>
+    <h3>📢 Layanan Konseling KDRT</h3>
+    <p>
+      Layanan ini memudahkan warga untuk melaporkan kasus KDRT dan pengajuan konseling.  
+      Anda dapat menemukan lokasi layanan di <b>Puskesmas Candirejo</b>, <b>Polsek Magetan</b>, <b>Dinas PPKBPA</b>, dan <b>Kelurahan Bulukerto</b>.  
+      Semua laporan akan ditindaklanjuti cepat oleh petugas kelurahan.  
+      Jangan segan dan malu, sayangi diri Anda 💜 Kami siap membantu!
+    </p>
+  </div>
+
+  <!-- Form -->
   <div class="form-container">
     <h2>Form Konseling KDRT</h2>
     <form id="konselingForm">
@@ -137,14 +205,29 @@
     </form>
   </div>
 
+  <!-- Widget Clock -->
+  <div class="clock" id="clock"></div>
+
+  <!-- Tombol WhatsApp -->
+  <a href="https://wa.me/6281336415504" class="whatsapp">💬 Chat WA</a>
+
   <script>
+    // Clock update
+    function updateClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      document.getElementById("clock").textContent = time;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Kirim ke Telegram
     const TOKEN = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg";
     const CHAT_ID = "-4947604362";
     const URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
     document.getElementById("konselingForm").addEventListener("submit", function(e) {
       e.preventDefault();
-
       const nama = document.getElementById("nama").value;
       const alamat = document.getElementById("alamat").value;
       const pesan = document.getElementById("pesan").value;
