@@ -25,17 +25,22 @@
     .container {
       background: rgba(0,0,0,0.55);
       padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+      border-radius: 25px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
       width: 90%;
       max-width: 420px;
       text-align: center;
       position: relative;
       overflow: hidden;
+      animation: fadeIn 1s ease;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(30px);}
+      to {opacity: 1; transform: translateY(0);}
     }
     h2 {
       margin-bottom: 10px;
-      font-size: 24px;
+      font-size: 26px;
     }
     .info {
       font-size: 14px;
@@ -45,18 +50,23 @@
     input, textarea {
       width: 100%;
       margin: 10px 0;
-      padding: 12px;
+      padding: 14px;
       border: none;
-      border-radius: 10px;
+      border-radius: 14px;
       font-size: 16px;
       outline: none;
+      transition: all 0.3s ease;
+    }
+    input:focus, textarea:focus {
+      box-shadow: 0 0 10px rgba(255,255,255,0.5);
+      transform: scale(1.02);
     }
     button {
       width: 100%;
       padding: 15px;
       background: linear-gradient(45deg, #ff416c, #ff4b2b);
       border: none;
-      border-radius: 12px;
+      border-radius: 14px;
       color: white;
       font-weight: bold;
       font-size: 16px;
@@ -73,10 +83,10 @@
       transform: translateX(-50%);
       background: rgba(255,255,255,0.95);
       color: #333;
-      padding: 12px 20px;
-      border-radius: 15px;
+      padding: 14px 22px;
+      border-radius: 18px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      font-size: 14px;
+      font-size: 15px;
       animation: slideDown 0.8s ease;
       display: flex;
       align-items: center;
@@ -92,11 +102,17 @@
       position: fixed;
       top: 15px;
       right: 15px;
-      background: rgba(0,0,0,0.6);
-      padding: 8px 15px;
-      border-radius: 12px;
-      font-size: 14px;
+      background: rgba(0,0,0,0.7);
+      padding: 12px 20px;
+      border-radius: 15px;
+      font-size: 20px;
       font-weight: bold;
+      letter-spacing: 2px;
+      animation: glow 1.5s infinite alternate;
+    }
+    @keyframes glow {
+      from {box-shadow: 0 0 5px #fff, 0 0 10px #ff4b2b;}
+      to {box-shadow: 0 0 20px #fff, 0 0 30px #2575fc;}
     }
 
     /* Tombol WhatsApp */
@@ -107,7 +123,7 @@
       background: #25D366;
       color: white;
       font-size: 16px;
-      padding: 12px 18px;
+      padding: 14px 20px;
       border-radius: 50px;
       text-decoration: none;
       display: flex;
@@ -131,6 +147,8 @@
     <p class="info">Alamat: Jl. Bromo No. 88, Bulukerto, Magetan <br> 📞 WA: 081336415504</p>
     
     <input type="text" id="nama" placeholder="Nama Anda">
+    <input type="text" id="alamat" placeholder="Alamat Anda">
+    <input type="tel" id="telp" placeholder="Nomor Telepon Anda">
     <textarea id="pesan" rows="4" placeholder="Tulis laporan Anda di sini..."></textarea>
     <button onclick="kirimLaporan()">🚨 Kirim Laporan</button>
   </div>
@@ -144,16 +162,22 @@
     // Kirim laporan via Telegram
     async function kirimLaporan() {
       const nama = document.getElementById("nama").value;
+      const alamat = document.getElementById("alamat").value;
+      const telp = document.getElementById("telp").value;
       const pesan = document.getElementById("pesan").value;
 
-      if (!nama || !pesan) {
+      if (!nama || !alamat || !telp || !pesan) {
         alert("Harap isi semua field!");
         return;
       }
 
       const token = "8486160083:AAHJi7GAf9RNaZ72fwYLu35bmqG0KNjOKQg";
       const chatId = "-4947604362";
-      const text = `🚨 LAPORAN DARURAT 🚨\n👤 Nama: ${nama}\n💬 Pesan: ${pesan}`;
+      const text = `🚨 LAPORAN DARURAT 🚨
+👤 Nama: ${nama}
+🏠 Alamat: ${alamat}
+📞 Telepon: ${telp}
+💬 Pesan: ${pesan}`;
 
       try {
         const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
@@ -166,6 +190,8 @@
         if (data.ok) {
           alert("✅ Laporan berhasil dikirim!");
           document.getElementById("nama").value = "";
+          document.getElementById("alamat").value = "";
+          document.getElementById("telp").value = "";
           document.getElementById("pesan").value = "";
         } else {
           alert("❌ Gagal kirim laporan.");
